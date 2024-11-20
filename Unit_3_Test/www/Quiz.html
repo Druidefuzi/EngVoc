@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/Quiz.css">
+    <title>Quiz</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Vokabel</h1>
+        <h1><div id="question" class="question-highlight"></div></h1>
+        
+        <h1>Wählen Sie die richtige Antwort</h1>
+        <div id="answers">
+            <button name="answer" id="answer1" onclick="handleAnswerClick(0)"></button>
+            <button name="answer" id="answer2" onclick="handleAnswerClick(1)"></button>
+            <button name="answer" id="answer3" onclick="handleAnswerClick(2)"></button>
+            <button name="answer" id="answer4" onclick="handleAnswerClick(3)"></button>
+        </div>
+        <div id="controls">
+            <button name="cancel" onclick="backToStart()">Übung abbrechen</button>
+        </div>
+    </div>
+
+    <script src="js/Quiz.js"></script>
+    <script>
+        Quiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+
+@charset "UTF-8";
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+
+    
+    
+
+h1 {
+  font-size: 32px;
+  color: #0A3D62;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 25px;
+  color: #0A3D62;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+h3 {
+  font-size: 32px;
+  color: #d7002c;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+h4 {
+  font-size: 20px;
+  color: #ff000a;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+h5 {
+  font-size: 20px;
+  color: #131574;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+
+
+
+
+
+
+#question {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2C3A47;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif; /* Hier die gewünschte Schriftart einfügen */
+}
+input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 12px;
+  font-size: 18px;
+  background-color: grey;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+input[type="text"]:hover {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 12px;
+  font-size: 18px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#answers button {
+  display: block;
+  width: 105%;
+ 
+  margin-bottom: 10px;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #58B19F;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#answers button:hover {
+  background-color: #3E8C85;
+}
+
+/* Hervorhebung der Frage */
+.question-highlight {
+  font-weight: bold;
+  color: #58B19F;
+  text-decoration: underline;
+}
+.custom-select { position: relative; display: inline-block; width: 100%; /* Setzt die Breite auf 100% */
+margin-bottom: 10px; }
+
+.custom-select select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #58B19F;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  -webkit-appearance: none; /* Entfernt das Standard-Styling */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.custom-select::after {
+  content: '\25BC'; /* Unicode-Zeichen für den Pfeil nach unten */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #fff;
+}
+
+.custom-select select:hover {
+  background-color: #3E8C85;
+}
+
+
