@@ -1,5 +1,5 @@
 function backToStart() {
-  window.location.replace('QuizStart.html');
+  window.location.replace('index.html');
 }
 
 function Quiz() {
@@ -21,9 +21,17 @@ function Quiz() {
   ];
 
   function regainData(dataString) {
-      if (!dataString || dataString === "null") return [];
-      return JSON.parse(dataString);
-  }
+    if (!dataString || dataString === "null" || dataString === "undefined") {
+        console.warn("DEBUG: Kein gültiges JSON gefunden, Rückgabe eines leeren Arrays.");
+        return [];
+    }
+    try {
+        return JSON.parse(dataString);
+    } catch (error) {
+        console.error("DEBUG: Fehler beim Parsen von JSON:", error, "Daten:", dataString);
+        return [];
+    }
+}
 
   // Daten abrufen
   const questionObjects = regainData(localStorage.getItem("quizData"));
@@ -31,7 +39,7 @@ function Quiz() {
   // Überprüfen, ob genügend Daten für das Quiz vorhanden sind
   if (!questionObjects || questionObjects.length === 0) {
       alert("Es sind keine Daten für den Quiz-Modus vorhanden.");
-      window.location.replace('QuizStart.html');
+      window.location.replace('index.html');
       return;
   }
 

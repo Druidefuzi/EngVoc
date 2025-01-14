@@ -1,4 +1,4 @@
-function setupQuiz() {
+function setupQuiz(amount) {
 
 
     let questions = [];
@@ -8,7 +8,7 @@ function setupQuiz() {
     let solutions = [];
     let answers = [];
     let dataObjects = []; 
-
+    let quizLength=amount
 
 
 
@@ -17,24 +17,41 @@ function setupQuiz() {
     function getRandomAnswers(correctAnswer, solutionsArray) {
         const availableAnswers = [...solutionsArray];
         const randomAnswers = [];
-
+    
+        // Remove the correct answer from available answers
         const index = availableAnswers.indexOf(correctAnswer);
         if (index > -1) availableAnswers.splice(index, 1);
-
+    
+        // Generate random answers ensuring uniqueness
         while (randomAnswers.length < 3 && availableAnswers.length > 0) {
             const randomIndex = Math.floor(Math.random() * availableAnswers.length);
-            randomAnswers.push(availableAnswers.splice(randomIndex, 1)[0]);
+            const selectedAnswer = availableAnswers.splice(randomIndex, 1)[0];
+    
+            // Check for duplicates
+            if (!randomAnswers.includes(selectedAnswer)) {
+                randomAnswers.push(selectedAnswer);
+            }
         }
-
+    
+        // Add the correct answer
         randomAnswers.push(correctAnswer);
+    
+        // Shuffle the answers
         for (let i = randomAnswers.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [randomAnswers[i], randomAnswers[j]] = [randomAnswers[j], randomAnswers[i]];
         }
-
+    
         return randomAnswers;
     }
-
+    
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    
     function generateMixedQuizObjects(englishQuestionsArray, germanQuestionsArray, solutionsArray, maxObjects) {
         const mixedQuestions = [];
     
@@ -69,26 +86,32 @@ function setupQuiz() {
     }
 
     function generateQuizObjects(questionsArray, solutionsArray, maxObjects) {
+        const generatedData = []; // Lokales Array für die generierten Daten
+    
         for (let i = 0; i < maxObjects && i < questionsArray.length; i++) {
-            const correctAnswer = solutionsArray[i]; 
-            const answers = getRandomAnswers(correctAnswer, solutionsArray); 
-
+            const correctAnswer = solutionsArray[i];
+            const answers = getRandomAnswers(correctAnswer, solutionsArray);
+    
             const dataObject = {
-                Frage: questionsArray[i], 
+                Frage: questionsArray[i],
                 Antwort1: answers[0],
                 Antwort2: answers[1],
                 Antwort3: answers[2],
                 Antwort4: answers[3],
-                richtigeAntwort: correctAnswer, 
-                Gegenpart: questionsArray[i], 
+                richtigeAntwort: correctAnswer,
+                Gegenpart: questionsArray[i],
             };
-
-            dataObjects.push(dataObject);
+    
+            generatedData.push(dataObject);
         }
-
-        localStorage.setItem("quizData", JSON.stringify(dataObjects));
-        console.log("Quiz-Daten erfolgreich gespeichert:", dataObjects);
+    
+        // Debug-Log für die generierten Daten
+        console.log("DEBUG: Generierte Quiz-Daten:", generatedData);
+    
+        // Rückgabe der Daten
+        return generatedData;
     }
+    
 
 
     
@@ -139,7 +162,7 @@ function setupQuiz() {
     
 
 
-    let quizLength = document.getElementById("länge").value;
+    
    
     let showAnswer = document.getElementById("correct").value;
     
@@ -148,7 +171,7 @@ function setupQuiz() {
     let difficulty = document.getElementById("schwierigkeit").value;
     let order = document.getElementById("reihenfolge").value;
     if (order === "Englisch/Deutsch" || order === "Gemischt") {
-        if (difficulty === "Test Unit 5" || difficulty === "Alles") {
+        if (difficulty === "Test Unit 5" || quizLength === "Alles") {
 
             addTask([
         "unauthorized",
@@ -332,7 +355,7 @@ function setupQuiz() {
         }
     }
     if (order === "Deutsch/Englisch" || order === "Gemischt") {
-        if (difficulty === "Test Unit 5" || difficulty === "Alles") {
+        if (difficulty === "Test Unit 5" || quizLength === "Alles") {
 
             addTask([
                 "unbefugt",
@@ -517,50 +540,62 @@ function setupQuiz() {
     }
     ArrayToUpperCase(questions);
     ArrayToUpperCase(solutions);
-    if(quizLength=="Alle"){quizLength=questions.length}
+    if(quizLength=="Alles"){quizLength=questions.length}
 if (questions.length === 0 || answers.length === 0) {
     console.error("Fehler: Fragen oder Antworten fehlen!");
 }
 
-    if (difficulty === "Falsch letzter Durchgang" || difficulty === "Gemischt") {
-        const savedWrongQuestions = JSON.parse(localStorage.getItem("wrongQuestions")) || []; 
-     
-        if (savedWrongQuestions.length) {
-         
-            if (difficulty === "Falsch letzter Durchgang") {
-                quizData = savedWrongQuestions; 
-            } else {
-               
-                const allQuestions = generateQuizObjects(questions, solutions, quizLength);
-                quizData = [...savedWrongQuestions, ...allQuestions];
-            }
-        } else {
-          
-            quizData = generateQuizObjects(questions, solutions, quizLength);
-        }
+shuffleQuestionsAndSolutions(questions, solutions);
+
+if (difficulty === "Falsch letzter Durchgang") {
+    const savedWrongQuestions = JSON.parse(localStorage.getItem("wrongQuestions")) || [];
+
+    if (savedWrongQuestions.length > 0) {
+        // Begrenze die Anzahl auf die vorhandenen falschen Fragen
+        const maxQuestions = Math.min(savedWrongQuestions.length, quizLength);
+
+        // Hole nur die benötigten falschen Fragen
+        quizData = savedWrongQuestions.slice(0, maxQuestions);
+
+        console.log("DEBUG: Fragen für 'Falsch letzter Durchgang':", quizData);
     } else {
-   
-        quizData = generateQuizObjects(questions, solutions, quizLength);
+        console.warn("DEBUG: Keine falschen Fragen gespeichert!");
+        quizData = []; // Leeres Quiz, wenn keine falschen Fragen existieren
     }
-    
-    function ArrayToUpperCase(stringArray) {
-        for (let i = 0; i < stringArray.length; i++) {
-            stringArray[i] = stringArray[i].toUpperCase();
-        }
+} else {
+    // Normale Quiz-Generierung
+    console.log("DEBUG: Starte normale Quiz-Generierung...");
+    quizData = generateQuizObjects(questions, solutions, quizLength);
+
+    console.log("DEBUG: Normale Fragen für das Quiz:", quizData);
+}
+
+// Debugging: Zeige gespeicherte Daten vor Fensterwechsel
+console.log("DEBUG: Quiz-Daten vor dem Speichern in localStorage:", quizData);
+
+// Quiz-Daten speichern
+localStorage.setItem("quizData", JSON.stringify(quizData));
+
+// Zusätzliche Logs für showAnswer und andere Variablen
+console.log("DEBUG: Gespeicherter Wert für showAnswer:", showAnswer);
+function ArrayToUpperCase(stringArray) {
+    for (let i = 0; i < stringArray.length; i++) {
+        stringArray[i] = stringArray[i].toUpperCase();
     }
-    
-
-    
-
-
-
-    
-
-    localStorage.setItem("showAnswer", showAnswer);
-
-
-    window.location.replace("Quiz.html");
-    solutions = "";
-    questions = "";
-    answerGroup = "";
-}    
+}
+// Fensterwechsel
+window.location.replace("Quiz.html");
+function shuffleQuestionsAndSolutions(questionsArray, solutionsArray) {
+    for (let i = questionsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        // Tausche die Fragen
+        [questionsArray[i], questionsArray[j]] = [questionsArray[j], questionsArray[i]];
+        // Tausche die Lösungen synchron dazu
+        [solutionsArray[i], solutionsArray[j]] = [solutionsArray[j], solutionsArray[i]];
+    }
+}
+// Bereinige Variablen
+solutions = "";
+questions = "";
+answerGroup = "";
+}

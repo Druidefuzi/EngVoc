@@ -21,7 +21,7 @@ function getSolution(){
 getSolution();
 function backToStart(){
     
-    window.location.replace('QuizStart.html');
+    window.location.replace('index.html');
     
     
 }

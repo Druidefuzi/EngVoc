@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+/* Allgemeine Stile für Desktop (über 1000px) */
+@media screen and (min-width: 501px) {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f9f9f9;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+   
+  }
+
+  h1 {
+    font-size: 32px;
+    color: #0A3D62;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  #question {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #2C3A47;
+    font-weight: bold;
+  }
+
+  #answers button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #58B19F;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #answers button:hover {
+    background-color: #3E8C85;
+  }
+
+  #controls button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #d7002c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #controls button:hover {
+    background-color: #b80026;
+  }
+}
+
+/* Stile für Smartphones (bis maximal 1000px) */
+@media screen and (max-width: 500px) {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+    height: 100vh; /* Füllt die gesamte Bildschirmhöhe */
+  }
+
+  .container {
+    width: 100%;
+    height: 100%; /* Container füllt den gesamten Bildschirm */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box; /* Padding wird in der Höhe berücksichtigt */
+  }
+
+  h1 {
+    font-size: 6vw; /* Dynamische Schriftgröße basierend auf der Bildschirmbreite */
+    margin-bottom: 5vw;
+  }
+
+  #question {
+    font-size: 5vw;
+    margin-bottom: 4vw;
+    text-align: center;
+  }
+
+  #answers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Füllt den verfügbaren Platz */
+    width: 100%;
+  }
+
+  #answers button {
+    flex-grow: 1; /* Jeder Button füllt gleichmäßig den Platz */
+    margin-bottom: 4px; /* Kleiner Abstand zwischen Buttons */
+    padding: 0; /* Kein Padding, da der Button automatisch wächst */
+    font-size: 5vw; /* Dynamische Schriftgröße */
+    background-color: #58B19F;
+    color: #fff;
+    border: none;
+    border-radius: 0; /* Keine Abrundungen, damit es den Platz perfekt ausfüllt */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #answers button:hover {
+    background-color: #3E8C85;
+  }
+
+  #controls {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #controls button {
+    width: 100%;
+    padding: 15px;
+    font-size: 5vw;
+    background-color: #d7002c;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #controls button:hover {
+    background-color: #b80026;
+  }
+}
